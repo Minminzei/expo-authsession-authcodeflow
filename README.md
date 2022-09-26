@@ -16,13 +16,13 @@ https://user-images.githubusercontent.com/3320542/192200595-5546ab5c-4875-446e-9
 
 ## Browser-based OAuth and Authorization Code Flow with PKCE extension
 
-OAuth is all about enabling users to grant limited access to applications, and Browser-based OAuth Flows process these flow by browser and redirect uri.
-OAuth is always subject to privacy and security, and current best practice is `Authorization Code Flow with PKCE extension`.
+OAuth is all about enabling users to grant limited access to applications, and Browser-based OAuth Flows processes these flow by browser and redirect uri.
+Historically, OAuth is always subject to privacy and security, so many practices have been considered by OSS.
 
 ## Conclusion
 
-1. Current best practice is `Authorization Code Flow with PKCE extension`.
-2. process between Public Client and Authorization Server should be protected by `state parameters` against CSRF attack.
+1. Current best practice is `Authorization Code Flow with PKCE extension`(2022 year).
+2. Process between Public Client and Authorization Server should be protected by `state parameters` against CSRF attack.
 3. Redirect URI should be exact match between registered on Authorization Server and Public/ Confidential client.
 4. Access tokens should not be exposed in the front channel. So `Implicit Flow` is not recommended.
 
@@ -43,7 +43,7 @@ OAuth is always subject to privacy and security, and current best practice is `A
 | Authorization Endpoint |              |
 | Token Endpoint         |              |
 
-### 2 design patterns
+### 2 Representive Flow
 
 | Pattern                                     | Descrioption | Recommended |
 | ------------------------------------------- | ------------ | ----------- |
@@ -56,13 +56,28 @@ OAuth is always subject to privacy and security, and current best practice is `A
 
 ### security risk of Implicit Flow
 
+- [Interception of the Redirect URI](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.1)
+- [Access Token Leak in Browser History](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.2)
+- [Manipulation of Scripts](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.3)
+- [Access Token Leak to Third Party Scripts](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.4)
+
 ## Authorization Code Flow with PKCE extension
 
 [figure]
 
 ### what is difference from `Implicit Flow`?
 
+- `Authorization Code Flow with PKCE extension` has `Token Endpoint` which `Implicit Flow` dosen't have.
+- `Front Channel(Public Client)` get `Authorization Code` which doesn't work by itself only.
+- `Confidential client(your registered backend server)` exchanges `Authorization Code` to `Access Token` with Secret Key and PKCE. That is how your service dosen't expose access token in front cahnnel.
+
 ### use PKCE(Proof Key for Code Exchange)
+
+1. PKCE is specification what verifies same app request `Authorization Endpoint` and `Token Endpoint`.
+2. `Public Client` generates random strings as `codeChallenge`, and encrypt it to `codeVerifier` by S256 algorithm.
+3. `Public Client` requests `Authorization Endpoint` with `codeChallenge`. That is how `Authorization Server` recognizes Who requested.
+4. `Confidential Client` requests `Token Endpoint` with `codeVerifier`. That is how `Authorization Server` recognizes request of `Authorization Endpoint` and `Token Endpoint` by same app.
+5. That is how oauth is protected against introspection of Authorization Response.
 
 ## Reference
 
