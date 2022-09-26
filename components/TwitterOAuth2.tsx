@@ -24,10 +24,13 @@ export default function TwitterOAuth2({
   );
   const redirectUri = makeRedirectUri({
     useProxy: Platform.select({ web: false, default: true }),
-    // As soon as app open WebBrowser to process Twitter OAuth2 on web, WebBrowser return { response.type: "dismiss" } and fail to process.
-    // So we use TwitterOAuth2Screen as workaround  for processing OAuth in spite of unusual OAuth in spite of unusual and not good way.
+    // As soon as app open WebBrowser to process Twitter OAuth2 on web, WebBrowser return { response.type: "dismiss" } before close and fail to process.
+    // So we use TwitterOAuth2Screen as workaround for processing OAuth in spite of unusual and not good way.
     // That is why we recommend to use TwitterOAuth1.tsx not TwitterOAuth2.tsx as Auth Code Flow of Twitter on production "WEB".
-    path: Platform.select({ web: "twitterOAuth2", default: undefined }),
+    path: Platform.select({
+      web: Constants.manifest?.extra?.redirectPathForTwitterOAuth2,
+      default: undefined,
+    }),
   });
 
   const [request, response, promptAsync] = useAuthRequest(

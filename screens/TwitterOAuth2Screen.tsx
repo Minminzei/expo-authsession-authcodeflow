@@ -17,7 +17,7 @@ export default function TwitterOAuth2Screen({
   async function getUser(tokenCode: string) {
     const redirectUri = makeRedirectUri({
       useProxy: false,
-      path: "twitterOAuth2",
+      path: Constants.manifest?.extra?.redirectPathForTwitterOAuth2,
     });
     const codeVerifier = await AsyncStorage.getItem(
       Constants.manifest?.extra?.codeVerifierForTwitterOAuth2
@@ -66,17 +66,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: "#2e78b7",
   },
 });

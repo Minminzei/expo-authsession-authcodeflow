@@ -37,6 +37,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       apiEndPoint: process.env.API_END_POINT,
       codeVerifierForTwitterOAuth2:
         process.env.CODE_VERIFIER_FOR_TWITTER_OAUTH2,
+      redirectPathForTwitterOAuth2:
+        process.env.REDIRECT_PATH_FOR_TWITTER_OAUTH2,
     },
   };
 };

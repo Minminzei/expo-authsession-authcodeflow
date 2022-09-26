@@ -6,7 +6,7 @@
 
 import { LinkingOptions } from "@react-navigation/native";
 import * as Linking from "expo-linking";
-
+import Constants from "expo-constants";
 import { RootStackParamList } from "../types";
 
 const linking: LinkingOptions<RootStackParamList> = {
@@ -17,7 +17,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         path: "/",
       },
       TwitterOAuth2: {
-        path: "twitterOAuth2",
+        path: Constants.manifest?.extra?.redirectPathForTwitterOAuth2,
       },
     },
   },

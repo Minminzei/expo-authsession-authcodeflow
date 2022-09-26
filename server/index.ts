@@ -144,7 +144,6 @@ app.post("/twitter/oauth1/access_token", async (req: Request<Params>, res) => {
 
 app.post("/twitter/oauth2/access_token", async (req: Request<Params>, res) => {
   try {
-    console.log(req.body);
     if (!validateParams(req.body)) {
       throw new Error("validation error");
     }
@@ -182,42 +181,11 @@ app.post("/twitter/oauth2/access_token", async (req: Request<Params>, res) => {
       username: data.data.username,
     });
   } catch (e: any) {
-    console.log(e);
     res.status(400);
     res.json({
       message: e.message,
     });
   }
-});
-
-app.get("/expo-auth-session", async (req, res) => {
-  try {
-    if (!req.query.authUrl) {
-      throw new Error("invalid access");
-    }
-    const { data } = await axios.get(req.query.authUrl as string);
-    console.log(data);
-    res.json({});
-  } catch (e: any) {
-    res.status(400);
-    res.json({
-      message: e.message,
-    });
-  }
-});
-
-app.get("/facebook/callback", async (req, res) => {
-  console.log("body---", req.body);
-  console.log("query---", req.query);
-  res.json({
-    message: "Twitter連携を行いました",
-  });
-});
-
-app.get("/twitter/callback", async (req, res) => {
-  res.json({
-    message: "Twitter連携を行いました",
-  });
 });
 
 app.set("port", 5000);
