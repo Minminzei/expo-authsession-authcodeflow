@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 4000:4000
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/virtual.conf:ro
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: ./docker
+    tty: true
+    volumes:
+      - .:/app
+    ports:
+      - "3100:3100"
