@@ -1,4 +1,4 @@
-### 日本語 version は[こちら](https://github.com/Minminzei/expo-authsession-authcodeflow/README.ja.md)
+### 日本語 version は[こちら](https://github.com/Minminzei/expo-authsession-authcodeflow/blob/main/README.ja.md)
 
 # Example of Expo AuthSession
 
@@ -24,7 +24,7 @@ OAuth is always subject to privacy and security, and current best practice is `A
 1. Current best practice is `Authorization Code Flow with PKCE extension`.
 2. process between Public Client and Authorization Server should be protected by `state parameters` against CSRF attack.
 3. Redirect URI should be exact match between registered on Authorization Server and Public/ Confidential client.
-4. Access tokens should be not exposed in in the front channel. So `Implicit Flow` is not recommended.
+4. Access tokens should not be exposed in the front channel. So `Implicit Flow` is not recommended.
 
 ## Glossary and Key Concept
 
@@ -38,23 +38,23 @@ OAuth is always subject to privacy and security, and current best practice is `A
 
 ### 2 endpoints
 
-| endpoints                                   | Descrioption |
-| ------------------------------------------- | ------------ |
-| Authorization Endpoint                      |              |
-| Authorization Code Flow with PKCE extension |              |
+| endpoints              | Descrioption |
+| ---------------------- | ------------ |
+| Authorization Endpoint |              |
+| Token Endpoint         |              |
 
 ### 2 design patterns
 
-| Pattern        | Descrioption | Recommended |
-| -------------- | ------------ | ----------- |
-| Implicit Flow  |              | No          |
-| Token Endpoint |              | Yes         |
+| Pattern                                     | Descrioption | Recommended |
+| ------------------------------------------- | ------------ | ----------- |
+| Implicit Flow                               |              | No          |
+| Authorization Code Flow with PKCE extension |              | Yes         |
 
 ## Implicit Flow
 
 [figure]
 
-### security risk
+### security risk of Implicit Flow
 
 ## Authorization Code Flow with PKCE extension
 
@@ -62,13 +62,10 @@ OAuth is always subject to privacy and security, and current best practice is `A
 
 ### what is difference from `Implicit Flow`?
 
-### use PKCE
+### use PKCE(Proof Key for Code Exchange)
 
 ## Reference
 
-- The OAuth 2.0 Authorization Framework
-  https://www.rfc-editor.org/rfc/rfc6749
-- Proof Key for Code Exchange by OAuth Public Clients
-  https://datatracker.ietf.org/doc/html/rfc7636
-- OAuth 2.0 for Browser-Based Apps
-  https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps
+- [The OAuth 2.0 Authorization Framework](https://www.rfc-editor.org/rfc/rfc6749)
+- [Proof Key for Code Exchange by OAuth Public Clients](https://datatracker.ietf.org/doc/html/rfc7636)
+- [OAuth 2.0 for Browser-Based Apps](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps)
