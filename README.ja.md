@@ -7,6 +7,17 @@
 1. [Twitter OAuth2](https://developer.twitter.com/ja/docs/basics/authentication/api-reference/token)による認証
 1. [Twitter 3-legged authorization](https://developer.twitter.com/ja/docs/basics/authentication/overview/3-legged-oauth)による認証(Twitter OAuth 1-0a)
 
+## 目次
+
+1. [Demo](#demo)
+1. [結論](#conclusion)
+1. [キー概念](#glossary)
+1. [Implicit Flow](#implicit-flow)
+1. [Authorization Code Flow with PKCE extension](#authorization-code)
+1. [環境構築](#build)
+
+<a id="demo"></a>
+
 ## Demo
 
 https://user-images.githubusercontent.com/3320542/192200595-5546ab5c-4875-446e-9bbd-d3c2d93dc242.mov
@@ -16,6 +27,8 @@ https://user-images.githubusercontent.com/3320542/192200595-5546ab5c-4875-446e-9
 OAuth とはユーザーにリソースへの限定的なアクセスを許可するための仕組みのことで、Browser-based OAuth Flows ではこの処理をブラウザとリダイレクト URI を使って行います。
 OAuth ではプライバシーとセキュリティ保護をテーマに色々なプラクティスが考案されてきました。ここでは代表的な OAuth Flow である`Implicit Flow`と`Authorization Code Flow with PKCE extension`を題材に現在のベストプラクティスを説明します。
 
+<a id="conclusion"></a>
+
 ## 結論
 
 1. 現在のベストプラクティスは`Authorization Code Flow with PKCE extension`
@@ -23,6 +36,8 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 3. リダイレクト URI は認可サーバーに登録されたものと厳密に一致させよう。Ex. 末尾に/があるかないかも含めてチェック！
 4. フロントチャンネルでアクセストークンをやり取りしない！なので Implicit Flow は非推奨。 認可サーバーとのアクセストークンのやり取りは登録済みの Confidential client で行う！
 5. 秘密鍵はフロントに出さない！
+
+<a id="glossary"></a>
 
 ## キー概念
 
@@ -48,6 +63,8 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 | Implicit Flow                               | Authorization Endpoint からの認可レスポンスで Public Client が直接アクセストークンを受け取る。認可レスポンス横取り攻撃のため現在では非推奨となっている。                                                                                                                                                                                   |
 | Authorization Code Flow with PKCE extension | 現在のベストプラクティス。Authorization Endpoint からの認可レスポンスで Public Client は短命の認可コードを受け取り、それを Confidential client にわたす。Confidential client は認可サーバーの Token Endpoint に対して認可コードを使ってアクセストークンを発行してもらう。この際、登録情報や秘密鍵、PKCE を使ってセキュアな発行要求をする。 |
 
+<a id="implicit-flow"></a>
+
 ## Implicit Flow
 
 ![Implicit Flow](https://user-images.githubusercontent.com/3320542/192438739-b9409a67-66bb-4dd8-86a3-e17eb954d4e7.jpg)
@@ -60,6 +77,8 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 - [Access Token Leak in Browser History](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.2)
 - [Manipulation of Scripts](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.3)
 - [Access Token Leak to Third Party Scripts](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.4)
+
+<a id="authorization-code"></a>
 
 ## Authorization Code Flow with PKCE extension
 
@@ -86,4 +105,46 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 - OAuth 2.0 for Browser-Based Apps
   https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps
 
+<a id="build"></a>
+
 ## 環境構築
+
+### Authorization Server に Confidential/ Public Client を登録する
+
+1. expo にサインアップして、アカウント名を取得<br />
+   https://expo.dev/
+
+2. twitter dev > User authentication settings<br />
+   https://developer.twitter.com/<br />
+   リダイレクト URI を登録 `https://auth.expo.io/@{Expo Account Name}/expo-authsession-authcodeflow`, `https://localhost:19006/twitterOAuth2`, `https://localhost:19006/`
+   ![Twitter](https://user-images.githubusercontent.com/3320542/192583059-109e69e7-9b8b-454c-a2fe-dcd49ec06418.png)
+
+3. facebook dev > Facebook Login setting<br />
+   https://developers.facebook.com/<br />
+   リダイレクト URI を登録 `https://auth.expo.io/@{Expo Account Name}/expo-authsession-authcodeflow`, `https://localhost:19006/`
+   ![Facebook](https://user-images.githubusercontent.com/3320542/192582412-615e4dbf-11ca-4164-970f-b46f3d407e17.png)
+
+### .env に credential 情報を記載
+
+```
+cp .env.sample .env
+### you get credential info at Authorization Server(Twitter/ Facebook), and write them in .env
+```
+
+### ローカル環境構築
+
+```
+### clone source
+git clone git@github.com:Minminzei/expo-authsession-authcodeflow.git
+cd expo-authsession-authcodeflow
+yarn
+
+### docker
+docker-compose up -d
+docker-compose exec app bash
+yarn server
+
+### simulatar
+yarn ios
+yarn web
+```
