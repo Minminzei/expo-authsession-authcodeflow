@@ -93,7 +93,7 @@ Historically, OAuth is always subject to privacy and security, so many practices
 ### use PKCE(Proof Key for Code Exchange)
 
 1. PKCE is specification for verification that Both `Authorization Endpoint` and `Token Endpoint` are requested by same process.
-2. `Public Client` generates random strings as `codeChallenge`, and make hash of it as `codeVerifier` by S256 algorithm.
+2. `Public Client` generates random strings as `codeVerifier`, and make hash of it as `codeChallenge` by S256 algorithm.
 3. `Public Client` requests `Authorization Endpoint` with `codeChallenge`. That is how `Authorization Server` recognizes Who requested.
 4. `Confidential Client` requests `Token Endpoint` with `codeVerifier`. That is how `Authorization Server` recognizes same process requested.
 5. That is how oauth is protected against introspection of Authorization Response.

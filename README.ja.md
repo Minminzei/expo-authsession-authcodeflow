@@ -93,7 +93,7 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 #### PKCE による同一者証明(Proof Key for Code Exchange:ピクシー)
 
 1. `Authorization Endpoint`と`Token Endpoint`への実行が同一者によって行われたことを証明するための仕組み。
-2. `codeChallenge`というランダムの文字列を`Public Client`で生成して、Sha-2 アルゴリズム で`codeVerifier`にハッシュ化する。[注]`Confidential Client`で発行すべきとの意見もあります。
+2. `codeVerifier`というランダムの文字列を`Public Client`で生成して、Sha-2 アルゴリズム で`codeChallenge`にハッシュ化する。[注]`Confidential Client`で発行すべきとの意見もあります。
 3. `Public Client`が`Authorization Endpoint`を叩くときに`codeChallenge`を URL に付与して、認可サーバーに実行者を認識してもらう。
 4. `Confidential Client`が`Token Endpoint`を叩くときに`codeVerifier`を付与して、認可サーバーに`Authorization Endpoint`と同じ実行者がアクセストークンを要求していることを認識してもらう。
 5. これにより認可コードの横取り攻撃対策となっている。
