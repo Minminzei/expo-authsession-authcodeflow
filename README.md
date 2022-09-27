@@ -55,15 +55,15 @@ Historically, OAuth is always subject to privacy and security, so many practices
 
 | endpoints              | Descrioption                                                                                                                                                                                                                                   |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Authorization Endpoint | Authorization Server asks user for authorizing to access their resource by developer and then return user's answer(`Authorization Response`) such as `Authorization Code` to Puclic Client.                                                    |
+| Authorization Endpoint | Authorization Server asks user for authorizing to access their resource by developer and then return user's answer(`Authorization Response`) such as `Authorization Code` to Puclic Client by Redirect URI.                                    |
 | Token Endpoint         | Confidential Client requests Authorization Server to exchange `Authorization Code` for `Access Token` with registered credential info. After verify request, Authorization Server return `Access Token` to Confidential client by Redirect URI |
 
 ### Two well known Flows
 
-| Pattern                                     | Descrioption                                                                                        | Recommended |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| Implicit Flow                               | Flow such as Puclic Client requests and recieves directly `Access Token` by Authorization Server.   | No          |
-| Authorization Code Flow with PKCE extension | Used by both confidential and public clients to exchange an authorization code for an access token. | Yes         |
+| Pattern                                     | Descrioption                                                                                                  | Recommended |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------- |
+| Implicit Flow                               | Flow such as Puclic Client requests `Access Token` to Authorization Server, and recieves it in front channel. | No          |
+| Authorization Code Flow with PKCE extension | Used by both confidential and public clients to exchange an authorization code for an access token.           | Yes         |
 
 <a id="implicit-flow"></a>
 
@@ -88,14 +88,14 @@ Historically, OAuth is always subject to privacy and security, so many practices
 
 - `Authorization Code Flow with PKCE extension` has `Token Endpoint` which `Implicit Flow` dosen't have.
 - `Front Channel(Public Client)` get `Authorization Code` which doesn't work by itself only.
-- `Confidential client(your registered backend server)` exchanges `Authorization Code` for `Access Token` with Secret Key and PKCE. That is how your service dosen't expose access token in front cahnnel.
+- `Confidential client(your registered backend server)` exchanges `Authorization Code` for `Access Token` with Secret Key and PKCE. That is how your service dosen't expose access token in front channel.
 
 ### use PKCE(Proof Key for Code Exchange)
 
-1. PKCE is specification for verification that Both `Authorization Endpoint` and `Token Endpoint` are requested by same service.
-2. `Public Client` generates random strings as `codeChallenge`, and make hash of it to `codeVerifier` by S256 algorithm.
+1. PKCE is specification for verification that Both `Authorization Endpoint` and `Token Endpoint` are requested by same process.
+2. `Public Client` generates random strings as `codeChallenge`, and make hash of it as `codeVerifier` by S256 algorithm.
 3. `Public Client` requests `Authorization Endpoint` with `codeChallenge`. That is how `Authorization Server` recognizes Who requested.
-4. `Confidential Client` requests `Token Endpoint` with `codeVerifier`. That is how `Authorization Server` recognizes same service requested.
+4. `Confidential Client` requests `Token Endpoint` with `codeVerifier`. That is how `Authorization Server` recognizes same process requested.
 5. That is how oauth is protected against introspection of Authorization Response.
 
 ## Reference
