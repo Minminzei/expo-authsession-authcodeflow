@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Platform } from "react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
@@ -7,6 +7,7 @@ import {
   useAuthRequest,
   ResponseType,
 } from "expo-auth-session";
+import { generateRandom } from "expo-auth-session/src/PKCE";
 import { facebookAccessToken, UserData } from "@hooks/oauth";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -18,6 +19,7 @@ export default function FacebookOAuth({
   onError: (message: string) => void;
   onSuccess: (user: UserData) => void;
 }) {
+  const [csrfState] = useState<string>(generateRandom(8));
   const redirectUri = makeRedirectUri({
     useProxy: Platform.select({ web: false, default: true }),
     path: Platform.select({ web: "/", default: undefined }),
@@ -28,6 +30,7 @@ export default function FacebookOAuth({
       responseType: ResponseType.Code,
       redirectUri,
       usePKCE: true,
+      state: csrfState,
       scopes: ["instagram_basic"],
     },
     {
@@ -52,8 +55,10 @@ export default function FacebookOAuth({
   useEffect(() => {
     try {
       if (response?.type === "success" && request?.codeVerifier) {
-        const { code } = response.params;
-        getUser(code, request.codeVerifier);
+        const { code, state } = response.params;
+        if (state === csrfState) {
+          getUser(code, request.codeVerifier);
+        }
       }
     } catch (e: any) {
       onError(e.message);

@@ -7,6 +7,7 @@ import {
   useAuthRequest,
   ResponseType,
 } from "expo-auth-session";
+import { generateRandom } from "expo-auth-session/src/PKCE";
 import { UserData, twitterOAuth2AccessToken } from "@hooks/oauth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -19,6 +20,7 @@ export default function TwitterOAuth2({
   onError: (message: string) => void;
   onSuccess: (user: UserData) => void;
 }) {
+  const [csrfState] = useState<string>(generateRandom(8));
   const [loaded, setLoaded] = useState<boolean>(
     Platform.select({ web: false, default: true })
   );
@@ -39,6 +41,7 @@ export default function TwitterOAuth2({
       responseType: ResponseType.Code,
       redirectUri,
       usePKCE: true,
+      state: csrfState,
       scopes: ["tweet.read", "users.read"],
     },
     {
@@ -76,8 +79,10 @@ export default function TwitterOAuth2({
 
   useEffect(() => {
     if (response?.type === "success" && request?.codeVerifier) {
-      const { code } = response.params;
-      getUser(code, request.codeVerifier);
+      const { code, state } = response.params;
+      if (state === csrfState) {
+        getUser(code, request.codeVerifier);
+      }
     }
   }, [response]);
 
