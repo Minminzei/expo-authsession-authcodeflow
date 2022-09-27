@@ -52,7 +52,7 @@ Historically, OAuth is always subject to privacy and security, so many practices
 
 ## Implicit Flow
 
-[figure]
+![Implicit Flow](https://user-images.githubusercontent.com/3320542/192437986-078370a7-87ec-45cd-97c9-05ff0c6d927b.jpg)
 
 ### security risk of Implicit Flow
 
@@ -63,7 +63,7 @@ Historically, OAuth is always subject to privacy and security, so many practices
 
 ## Authorization Code Flow with PKCE extension
 
-[figure]
+![Auth Code](https://user-images.githubusercontent.com/3320542/192437997-24adbdf5-9205-489a-9125-00fa9994e91a.jpg)
 
 ### what is difference from `Implicit Flow`?
 

@@ -50,7 +50,7 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 
 ## Implicit Flow
 
-図
+![Implicit Flow](https://user-images.githubusercontent.com/3320542/192438739-b9409a67-66bb-4dd8-86a3-e17eb954d4e7.jpg)
 
 #### Implicit Flow の攻撃リスク
 
@@ -63,7 +63,7 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 
 ## Authorization Code Flow with PKCE extension
 
-図
+![Auth Code](https://user-images.githubusercontent.com/3320542/192438730-6838d106-8031-4a8d-bc0b-216f8be8cae6.jpg)
 
 #### Implicit Flow との違い
 
