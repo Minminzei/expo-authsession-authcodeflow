@@ -21,34 +21,34 @@ Historically, OAuth is always subject to privacy and security, so many practices
 
 ## Conclusion
 
-1. Current best practice is `Authorization Code Flow with PKCE extension`(2022 year).
+1. Current best practice is `Authorization Code Flow with PKCE extension`(2022).
 2. Process between Public Client and Authorization Server should be protected by `state parameters` against CSRF attack.
 3. Redirect URI should be exact match between registered on Authorization Server and Public/ Confidential client.
 4. Access tokens should not be exposed in the front channel. So `Implicit Flow` is not recommended.
 
 ## Glossary and Key Concept
 
-### 3 Players
+### Three Players
 
-| Player               | Descrioption | Example              |
-| -------------------- | ------------ | -------------------- |
-| Authorization Server |              | Facebook             |
-| Public Client        |              | Web SPA/ Mobile Apps |
-| Confidential client  |              | Your backend server  |
+| Player               | Descrioption                                                                                                                                                                                                                               | Example              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- |
+| Authorization Server | Authorization Server authorizes developer to access their resources.                                                                                                                                                                       | Facebook             |
+| Public Client        | Public Client is User Interface which source code is readable. So it must not use secret credential. Public Client request to Authorization Server for authorization of API access, and receive `Authorization Response` via Redirect Uri. | Web SPA/ Mobile Apps |
+| Confidential Client  | Confidential Client is backend server registered on Authorization Server, and has such info as client-id, client secret, permitted redirect uri and so on. Confidential Client requests Authorization Server for `Access Token`.           | Your backend server  |
 
-### 2 endpoints
+### Two endpoints
 
-| endpoints              | Descrioption |
-| ---------------------- | ------------ |
-| Authorization Endpoint |              |
-| Token Endpoint         |              |
+| endpoints              | Descrioption                                                                                                                                                                                                                                   |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Authorization Endpoint | Authorization Server asks user for authorizing to access their resource by developer and then return user's answer(`Authorization Response`) such as `Authorization Code` to Puclic Client.                                                    |
+| Token Endpoint         | Confidential Client requests Authorization Server to exchange `Authorization Code` for `Access Token` with registered credential info. After verify request, Authorization Server return `Access Token` to Confidential client by Redirect URI |
 
-### 2 Representive Flow
+### Two well known Flows
 
-| Pattern                                     | Descrioption | Recommended |
-| ------------------------------------------- | ------------ | ----------- |
-| Implicit Flow                               |              | No          |
-| Authorization Code Flow with PKCE extension |              | Yes         |
+| Pattern                                     | Descrioption                                                                                        | Recommended |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
+| Implicit Flow                               | Flow such as Puclic Client requests and recieves directly `Access Token` by Authorization Server.   | No          |
+| Authorization Code Flow with PKCE extension | Used by both confidential and public clients to exchange an authorization code for an access token. | Yes         |
 
 ## Implicit Flow
 

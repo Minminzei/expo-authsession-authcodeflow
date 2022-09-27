@@ -54,7 +54,12 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 
 #### Implicit Flow の攻撃リスク
 
-リダイレクト URI にアクセストークンを含むため、リダイレクト URI を横取りされたり、ブラウザ履歴から漏洩したりと。様々なリスクに晒されているため現在ではフロントチャンネルでアクセストークンを直接やり取りする Inplicit Flow は非推奨となっています。しかしながら、実装の簡易さのためか割と見られる印象です。
+リダイレクト URI にアクセストークンを含むため、リダイレクト URI を横取りされたり、ブラウザ履歴から漏洩したりと様々なリスクに晒されているため現在ではフロントチャンネルでアクセストークンを直接やり取りする Inplicit Flow は非推奨となっています。しかしながら、実装の簡易さのためか割と見られる印象です。
+
+- [Interception of the Redirect URI](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.1)
+- [Access Token Leak in Browser History](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.2)
+- [Manipulation of Scripts](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.3)
+- [Access Token Leak to Third Party Scripts](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.4)
 
 ## Authorization Code Flow with PKCE extension
 
@@ -62,9 +67,9 @@ OAuth ではプライバシーとセキュリティ保護をテーマに色々�
 
 #### Implicit Flow との違い
 
-- Implicit Flow にはない Token Endpoint が Flow に追加されている点。
+- Implicit Flow にはない Token Endpoint が Flow に追加されている。
 - フロントチャンネルでは短命かつそれ自体ではリソースにアクセスできない認可コードを受け取る。
-- 認可コードとアクセストークンの交換は、登録されたバックエンドサーバー(Confidential Client)が秘密鍵と一緒に行い、フロントチャンネルでアクセストークンを露出させない。
+- 認可コードとアクセストークンの交換は、登録されたバックエンドサーバー(Confidential Client)が秘密鍵と`PKCE(codeVerifier)`と一緒に行い、フロントチャンネルでアクセストークンを露出させない。
 
 #### PKCE による同一者証明(Proof Key for Code Exchange:ピクシー)
 
