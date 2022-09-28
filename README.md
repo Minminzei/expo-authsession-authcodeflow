@@ -60,10 +60,10 @@ Historically, OAuth is subject to privacy and security, so many practices have b
 
 ### Two well known Flows
 
-| Pattern                                     | Descrioption                                                                                                                                                                                                                                                            | Recommended |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| Implicit Flow                               | Flow such as Puclic Client requests `Access Token` to Authorization Server, and recieves it in front channel.                                                                                                                                                           | No          |
-| Authorization Code Flow with PKCE extension | `Public Client` requests `Authorization Server` for short-lived Authorization Code in fron channel. After Public Client passes it to Confidential Client, Confidential Client requests `Authorization Server` to exchange auth code for AccessToken in backend channel. | Yes         |
+| Pattern                                     | Descrioption                                                                                                                                                                                                                                                             | Recommended |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| Implicit Flow                               | Flow such as Puclic Client requests `Access Token` to Authorization Server, and recieves it in front channel.                                                                                                                                                            | No          |
+| Authorization Code Flow with PKCE extension | `Public Client` requests `Authorization Server` for short-lived Authorization Code in front channel. After Public Client passed it to Confidential Client, Confidential Client requests `Authorization Server` to exchange auth code for AccessToken in backend channel. | Yes         |
 
 <a id="implicit-flow"></a>
 
@@ -72,6 +72,8 @@ Historically, OAuth is subject to privacy and security, so many practices have b
 ![Implicit Flow](https://user-images.githubusercontent.com/3320542/192437986-078370a7-87ec-45cd-97c9-05ff0c6d927b.jpg)
 
 ### security risk of Implicit Flow
+
+Access tokens should not be exposed in the front channel because of below risks.
 
 - [Interception of the Redirect URI](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.1)
 - [Access Token Leak in Browser History](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-browser-based-apps#section-9.8.2)
@@ -86,14 +88,14 @@ Historically, OAuth is subject to privacy and security, so many practices have b
 
 ### what is difference from `Implicit Flow`?
 
-- `Authorization Code Flow with PKCE extension` has `Token Endpoint` which `Implicit Flow` dosen't have.
-- `Front Channel(Public Client)` get `Authorization Code` which doesn't work by itself only.
+- `Authorization Code Flow with PKCE extension` has `Confidential Client` and `Token Endpoint` which `Implicit Flow` dosen't have.
+- `Front Channel(Public Client)` get `Authorization Code` which couldn't access api by itself.
 - `Confidential client(your registered backend server)` exchanges `Authorization Code` for `Access Token` with Secret Key and PKCE. That is how your service dosen't expose access token in front channel.
 
 ### use PKCE(Proof Key for Code Exchange)
 
 1. PKCE is specification for verification that Both `Authorization Endpoint` and `Token Endpoint` are requested by same process.
-2. `Public Client` generates random strings as `codeVerifier`, and make hash of it as `codeChallenge` by S256 algorithm.
+2. `Public Client` generates random strings as `codeVerifier`, and make hash of it as `codeChallenge` by Sha-2 algorithm.
 3. `Public Client` requests `Authorization Endpoint` with `codeChallenge`. That is how `Authorization Server` recognizes Who requested.
 4. `Confidential Client` requests `Token Endpoint` with `codeVerifier`. That is how `Authorization Server` recognizes same process requested.
 5. That is how oauth is protected against introspection of Authorization Response.
