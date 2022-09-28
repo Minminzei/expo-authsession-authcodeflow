@@ -2,11 +2,11 @@
 
 # Example of Expo AuthSession
 
-This repository is sample code for OAuth authorization flow([Authorization Code Flow with PKCE extension](https://tinyurl.com/2qm6xyh6)) By [Expo AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/).
+This repository is sample code for OAuth authorization flow([Authorization Code Flow with PKCE extension](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow-with-proof-key-for-code-exchange-pkce)) By [Expo AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/).
 This repository covers below topics.
 
 1. Expo AuthSession on iOS and Web
-1. Facebook OAuth
+1. [Facebook OAuth](https://developers.facebook.com/docs/facebook-login/guides/advanced/manual-flow/)
 1. Twitter OAuth 2.0 ([Twitter OAuth2](https://developer.twitter.com/en/docs/basics/authentication/api-reference/token))
 1. Twitter OAuth 1-0a ([Twitter 3-legged authorization](https://developer.twitter.com/en/docs/basics/authentication/overview/3-legged-oauth))
 
@@ -27,8 +27,8 @@ https://user-images.githubusercontent.com/3320542/192200595-5546ab5c-4875-446e-9
 
 ## Browser-based OAuth and Authorization Code Flow with PKCE extension
 
-OAuth is all about enabling users to grant limited access to applications, and Browser-based OAuth Flows processes these flow by browser and redirect uri.
-Historically, OAuth is always subject to privacy and security, so many practices have been considered by OSS.
+OAuth is all about enabling users to grant limited access to applications, and Browser-based OAuth handles these flow by browser and redirect-uri.
+Historically, OAuth is subject to privacy and security, so many practices have been considered by OSS.
 
 <a id="conclusion"></a>
 
@@ -60,10 +60,10 @@ Historically, OAuth is always subject to privacy and security, so many practices
 
 ### Two well known Flows
 
-| Pattern                                     | Descrioption                                                                                                  | Recommended |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------- |
-| Implicit Flow                               | Flow such as Puclic Client requests `Access Token` to Authorization Server, and recieves it in front channel. | No          |
-| Authorization Code Flow with PKCE extension | Used by both confidential and public clients to exchange an authorization code for an access token.           | Yes         |
+| Pattern                                     | Descrioption                                                                                                                                                                                                                                                            | Recommended |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| Implicit Flow                               | Flow such as Puclic Client requests `Access Token` to Authorization Server, and recieves it in front channel.                                                                                                                                                           | No          |
+| Authorization Code Flow with PKCE extension | `Public Client` requests `Authorization Server` for short-lived Authorization Code in fron channel. After Public Client passes it to Confidential Client, Confidential Client requests `Authorization Server` to exchange auth code for AccessToken in backend channel. | Yes         |
 
 <a id="implicit-flow"></a>
 
